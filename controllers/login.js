@@ -1,8 +1,3 @@
-// import mongoose from 'mongoose';
-// import "../models/Login.js";
-// import jsonwebtoken from 'jsonwebtoken'
-// import tokenok from "../config/tokenValidate.js"
-// import CryptoJS from 'crypto-js'
 const mongoose = require('mongoose')
 const jsonwebtoken = require('jsonwebtoken')
 const tokenok = require("../config/tokenValidate.js")

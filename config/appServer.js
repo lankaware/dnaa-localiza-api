@@ -1,17 +1,7 @@
-// import express, { json } from 'express'
-// import cors from 'cors'
+
 const express = require('express')
 const cors = require('cors')
 const consign = require('consign')
-
-// import login from '../controllers/login.js'
-// import quiz from '../controllers/quiz.js'
-// import tool from '../controllers/tool.js'
-// import dimension from '../controllers/dimension.js'
-// const login = require('../controllers/login.js')
-// const quiz = require('../controllers/quiz.js')
-// const tool = require('../controllers/tool.js')
-// const dimension = require('../controllers/dimension.js')
 
 module.exports = () => {
     const app = express()
@@ -24,10 +14,6 @@ module.exports = () => {
         next()
     })
 
-    // login(app)
-    // quiz(app)
-    // tool(app)
-    // dimension(app)
     consign()
     .include('controllers')
     .into(app)

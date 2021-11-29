@@ -1,12 +1,9 @@
-// import mongoose from 'mongoose';
-// import "../models/Dimension.js";
-// import tokenok from "../config/tokenValidate.js"
 const mongoose = require('mongoose')
-require("../models/Dimension.js")
 const tokenok = require("../config/tokenValidate.js")
+require("../models/Location.js")
 
-const ModelName = mongoose.model("Dimension")
-const routeName = "/dimension"
+const ModelName = mongoose.model("Location")
+const routeName = "/location"
 
 module.exports = app => {
     app.get(routeName, tokenok, async (req, res) => {
@@ -43,24 +40,7 @@ module.exports = app => {
             })
     })
 
-    app.get(routeName + 'tool/:toolid', tokenok, async (req, res) => {
-        let searchParm = { 'tool_id':  req.params.toolid }
-        await ModelName.find(searchParm)
-            .select('_id name acronym')
-            .then((record) => {
-                return res.json({
-                    error: false,
-                    record
-                })
-            }).catch((err) => {
-                return res.json({
-                    error: true,
-                    message: err
-                })
-            })
-    })
-
-    app.get(routeName + "id/:id", tokenok, async (req, res) => {
+    app.get(routeName + "id/:id", async (req, res) => {
         const _id = mongoose.Types.ObjectId(req.params.id)
         await ModelName.findById(req.params.id)
             .then((record) => {

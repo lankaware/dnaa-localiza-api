@@ -1,58 +1,13 @@
-// import mongoose from 'mongoose';
-// import tokenok from "../config/tokenValidate.js"
-// import "../models/Quiz.js";
 const mongoose = require('mongoose')
 const tokenok = require("../config/tokenValidate.js")
-require("../models/Quiz.js")
+require("../models/MktEvent.js")
 
-const ModelName = mongoose.model("Quiz")
-const routeName = "/quiz"
+const ModelName = mongoose.model("MktEvent")
+const routeName = "/mktevent"
 
 module.exports = app => {
     app.get(routeName, tokenok, async (req, res) => {
-        await ModelName.aggregate([
-            {
-                $lookup:
-                {
-                    from: 'tools',
-                    localField: 'tool_id',
-                    foreignField: '_id',
-                    as: 'tool'
-                }
-            },
-            {
-                $lookup:
-                {
-                    from: 'dimensions',
-                    localField: 'blocks.questions.dimension_id',
-                    foreignField: '_id',
-                    as: 'dimension'
-                }
-            },
-            {
-                $project: {
-                    _id: '$_id',
-                    name: '$name',
-                    active: '$active',
-                    blockLimit: '$blockLimit',
-                    questionLimit: '$questionLimit',
-                    tool_id: '$tool_id',
-                    tool_name: '$tool.name',
-                    blocks: // 1
-                        {
-                            number: 1,
-                            questions: // 1,
-                            {
-                                dimension: 1, 
-                                text: 1,
-                            }
-                        }
-                },
-            },
-            {
-                $sort: { 'name': 1 },
-            }
-        ])
+        await ModelName.find()
             .sort('name')
             .then((record) => {
                 return res.json({
@@ -87,33 +42,7 @@ module.exports = app => {
 
     app.get(routeName + "id/:id", async (req, res) => {
         const _id = mongoose.Types.ObjectId(req.params.id)
-        await ModelName.aggregate([
-            {
-                $lookup:
-                {
-                    from: 'tools',
-                    localField: 'tool_id',
-                    foreignField: '_id',
-                    as: 'tool'
-                },
-            },
-            {
-                $match: { '_id': _id }
-            },
-            {
-                $project:
-                {
-                    _id: 1,
-                    name: 1,
-                    active: 1,
-                    blockLimit: 1,
-                    questionLimit: 1,
-                    tool_id: 1,
-                    tool_name: '$tool.name',
-                    blocks: 1,
-                }
-            },
-        ])
+        await ModelName.findById(req.params.id)
             .then((record) => {
                 return res.json({
                     error: false,
