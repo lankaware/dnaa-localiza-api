@@ -5,7 +5,39 @@ require("../models/Location.js")
 const ModelName = mongoose.model("Location")
 const routeName = "/location"
 
+const axios = require('axios')
+
 module.exports = app => {
+
+    app.get(routeName + "distance/:origin/:destination", tokenok, async (req, res) => {
+        // Atenção: quando possível verificar se realmente é necessário usar o axios, ou se ele pode ser útil para outras funções
+
+        const localOrigin = encodeURI(req.params.origin)
+        const localDest = encodeURI(req.params.destination)
+        const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${localOrigin}&destinations=${localDest}&key=${process.env.GDIST_KEY}`
+        const config = {
+            method: 'get',
+            url: url,
+            headers: {}
+        };
+
+        var distance = 0
+        
+        await axios(config)
+            .then(function (response) {
+                distance = response.data.rows[0].elements[0].distance.value
+                return res.json({
+                    distance: distance
+                })
+            })
+            .catch((err) => {
+                return res.json({
+                    error: true,
+                    message: err
+                })
+            })
+    })
+
     app.get(routeName, tokenok, async (req, res) => {
         await ModelName.find()
             .sort('name')
@@ -32,7 +64,8 @@ module.exports = app => {
                     error: false,
                     record
                 })
-            }).catch((err) => {
+            })
+            .catch((err) => {
                 return res.json({
                     error: true,
                     message: err
