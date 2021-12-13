@@ -7,7 +7,7 @@ const mktevent = new Schema(
         name: String,
         initialDate: Date,
         finalDate: Date,
-        profile: Number, 
+        profile: String, 
         address: String,
         city: String,
         state: String,
