@@ -16,7 +16,8 @@ module.exports = app => {
                     error: false,
                     record
                 })
-            }).catch((err) => {
+            })
+            .catch((err) => {
                 return res.json({
                     error: true,
                     message: err

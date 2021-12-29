@@ -1,12 +1,11 @@
 const express = require('express')
-const qrcode = require('qrcode-terminal');
 
 const cors = require('cors')
 const consign = require('consign') 
-const fs = require('fs');
+const fs = require('fs')
 const axios = require('axios');
 const { Client } = require('whatsapp-web.js');
-const SESSION_FILE_PATH = process.env.SESSION_FILE_PATH || '.././session.json';
+const SESSION_FILE_PATH = process.env.SESSION_FILE_PATH || '.././session.json'
 
 module.exports = () => {
 
@@ -39,48 +38,6 @@ module.exports = () => {
         next()
     })
 
-    client.on('qr', qr => {
-        fs.writeFileSync('./auth/last.qr', qr);
-        qrcode.generate(qr, {small: true});
-
-    });
-
-    client.on('authenticated', (session) => {
-        console.log("AUTH!");
-        sessionCfg = session;
-
-        fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function (err) {
-            if (err) {
-                console.error(err);
-            }
-            authed = true;
-        });
-
-        try {
-            fs.unlinkSync('./auth/last.qr')
-        } catch (err) { }
-    });
-
-    client.on('auth_failure', () => {
-        console.log("AUTH Failed !")
-        sessionCfg = ""
-        process.exit()
-    });
-
-    client.on('ready', () => {
-        console.log('Client is ready!');
-    });
-
-    client.on('message', async msg => {
-        if (config.webhook.enabled) {
-            if (msg.hasMedia) {
-                const attachmentData = await msg.downloadMedia()
-                msg.attachmentData = attachmentData
-            }
-            axios.post(config.webhook.path, { msg })
-        }
-    })
-    client.initialize();
 
 
     consign()
