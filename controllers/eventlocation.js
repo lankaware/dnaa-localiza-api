@@ -23,7 +23,7 @@ module.exports = app => {
                 })
             })
     })
-
+ 
     app.get(routeName + "event/:id", async (req, res) => {
         const _id = mongoose.Types.ObjectId(req.params.id)
         await ModelName.aggregate([

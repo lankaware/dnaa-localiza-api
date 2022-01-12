@@ -28,7 +28,7 @@ module.exports = app => {
             .then(function (response) {
                 distance = response.data.rows[0].elements[0].distance.value
                 return res.json({
-                    distance: distance
+                    distance: (distance / 1000).toFixed(1) 
                 })
             })
             .catch((err) => {

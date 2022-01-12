@@ -5,8 +5,9 @@ const Schema = mongoose.Schema
 const location = new Schema(
     {
         name: String,
-        profile: String, 
+        profile: Number, 
         address: String,
+        neighborhood: String,
         city: String,
         state: String,
         zip: String,
