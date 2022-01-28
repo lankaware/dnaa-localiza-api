@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const tokenok = require("../config/tokenValidate.js")
-require("../models/REProject.js")
+require("../models/REDeveloper.js")
 
 const ModelName = mongoose.model("REDeveloper")
 const routeName = "/redeveloper"
