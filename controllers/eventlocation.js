@@ -48,6 +48,7 @@ module.exports = app => {
                     location_profile: '$location.profile',
                     location_name: '$location.name',
                     location_address: '$location.address',
+                    location_zip: '$location.zip',
                     location_city: '$location.city',
                     distance: 1,
                     disponibility: 1,
