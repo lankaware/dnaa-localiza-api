@@ -3,8 +3,10 @@ const Schema = mongoose.Schema
 
 const venture = new Schema(
     {
-        name: String, 
-        
+        name: String,
+        tradeName: String,
+        email: String, 
+        phone: String,
     }
 )
 
