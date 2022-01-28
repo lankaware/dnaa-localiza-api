@@ -1,7 +1,8 @@
 const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
-const venture = new Schema(
+// Incorporadora 
+const reDeveloper = new Schema(
     {
         name: String,
         tradeName: String,
@@ -10,4 +11,4 @@ const venture = new Schema(
     }
 )
 
-mongoose.model("Venture", venture)
+mongoose.model("REDeveloper", reDeveloper)

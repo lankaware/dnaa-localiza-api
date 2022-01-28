@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 const tokenok = require("../config/tokenValidate.js")
-require("../models/EventLocation.js")
+require("../models/REProject.js")
 
-const ModelName = mongoose.model("Venture")
-const routeName = "/venture"
+const ModelName = mongoose.model("REDeveloper")
+const routeName = "/redeveloper"
 
 module.exports = app => {
     app.get(routeName, tokenok, async (req, res) => {
