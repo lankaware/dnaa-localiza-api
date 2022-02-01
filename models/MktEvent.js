@@ -5,17 +5,11 @@ const Schema = mongoose.Schema
 const mktevent = new Schema(
     {
         name: String,
-        initialDate: Date,
-        finalDate: Date,
+        reproject_id: mongoose.ObjectId,
+        date: Date,
         profileFrom: Number, 
         profileTo: Number, 
-        address: String,
-        neighborhood: String,
-        city: String,
-        state: String,
-        zip: String,
-        email: String, 
-        phone: String,  
+        
     },
     { timestamps: true }
 )
