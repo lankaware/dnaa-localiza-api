@@ -10,7 +10,7 @@ module.exports = app => {
         await ModelName.find()
             .sort('name')
             .then((record) => {
-                return res.json({
+                return res.json({ 
                     error: false,
                     record
                 })
@@ -41,6 +41,7 @@ module.exports = app => {
     })
 
     app.get(routeName + "id/:id", async (req, res) => {
+        console.log("req.params.id", req.params.id)
         const _id = mongoose.Types.ObjectId(req.params.id)
         await ModelName.findById(req.params.id)
             .then((record) => {

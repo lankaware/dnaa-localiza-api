@@ -7,7 +7,7 @@ const reProject = new Schema(
         name: String,
         reDeveloper_id: mongoose.ObjectId,
         address: String,
-        neighborhood: String,
+        neighborhood: String, 
         city: String,
         state: String,
         zip: String,

@@ -1,6 +1,11 @@
 const mongoose = require('mongoose')
 const tokenok = require("../config/tokenValidate.js")
 require("../models/MktEvent.js")
+require("../models/EventLocation.js")
+
+const EventLocationModelName = mongoose.model("EventLocation")
+const eventLocationRouteName = "/eventlocation"
+
 
 const ModelName = mongoose.model("MktEvent")
 const routeName = "/mktevent"
@@ -47,6 +52,53 @@ module.exports = app => {
                 return res.json({
                     error: false,
                     record
+                })
+            })
+            .catch((err) => {
+                return res.json({
+                    error: true,
+                    message: err
+                })
+            })
+    })
+
+    app.get(routeName + "perproject/:project", async (req, res) => {
+        const project = mongoose.Types.ObjectId(req.params.project)
+        await ModelName.find({ "reproject_id": project }, '_id name reproject_id date')
+            .then((record) => {
+                return res.json({
+                    error: false,
+                    record
+                })
+            })
+            .catch((err) => {
+                return res.json({
+                    error: true,
+                    message: err
+                })
+            })
+    })
+
+    app.get(routeName + "previous/:project", async (req, res) => {
+        const uniqueLocationsArray = [];
+        const project = mongoose.Types.ObjectId(req.params.project)
+        await ModelName.find({ "reproject_id": project }, '_id')
+            .then(async (mkteventList) => {
+                for (const el of mkteventList) {
+                    await EventLocationModelName.find({ "event_id": el._id })
+                        .then((eventLocationList) => {
+                             for (const location of eventLocationList) {
+                                console.log("location", location.distance)
+                                uniqueLocationsArray.push(location)
+                            }
+                        })
+                }
+                
+                // uniqueLocationsArray = [...uniqueEventLocations]
+                console.log("uniqueLocationsArray", uniqueLocationsArray)
+                return res.json({
+                    error: false,
+                    record: uniqueLocationsArray
                 })
             })
             .catch((err) => {

@@ -57,6 +57,23 @@ module.exports = app => {
             })
     })
 
+    app.get(routeName + "perdeveloper/:developer", async (req, res) => {
+        const developer = mongoose.Types.ObjectId(req.params.developer)
+        await ModelName.find({"reDeveloper_id": developer }, '_id name address')
+            .then((record) => {
+                return res.json({
+                    error: false,
+                    record
+                })
+            })
+            .catch((err) => {
+                return res.json({
+                    error: true,
+                    message: err
+                })
+            })
+    })
+
     app.post(routeName, tokenok, async (req, res) => {
         await ModelName.create(req.body)
             .then((record) => {
