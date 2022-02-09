@@ -95,15 +95,9 @@ module.exports = app => {
                             }
                         })
                 }
-                // return uniqueLocationsArray = LocationsArray.filter((item, pos) => {
-                //     return LocationsArray.indexOf(item) === pos;
-                // })
-                // console.log("uniqueLocationsArray", uniqueLocationsArray)
                 return LocationsArray
             }).then((LocationsArray) => {
                 return LocationsArray.filter((item, pos) => {
-                    console.log(mongoose.Types.ObjectId(item))
-                    console.log(LocationsArray.indexOf(item))
                     return LocationsArray.indexOf(item) === pos;
                 })
             })
@@ -112,6 +106,9 @@ module.exports = app => {
                     error: false,
                     record: record
                 })
+                // record.forEach(() => {
+
+                // })
             })
             .catch((err) => {
                 return res.json({
