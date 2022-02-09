@@ -39,6 +39,22 @@ module.exports = app => {
                 })
             })
     })
+    app.get(routeName + "per/:builder", tokenok, async (req, res) => {
+        await ModelName.find(searchParm)
+            .select('_id name')
+            .sort('name')
+            .then((record) => {
+                return res.json({
+                    error: false,
+                    record
+                })
+            }).catch((err) => {
+                return res.json({
+                    error: true,
+                    message: err
+                })
+            })
+    })
 
     app.get(routeName + "id/:id", async (req, res) => {
         const _id = mongoose.Types.ObjectId(req.params.id)
