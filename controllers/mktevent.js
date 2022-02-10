@@ -80,9 +80,10 @@ module.exports = app => {
             })
     })
 
-    app.get(routeName + "previous/:project", async (req, res) => {
-        const LocationsArray = [];
-        // const uniqueLocationsArray = [];
+    app.get(routeName + "previous/:project/:id", async (req, res) => {
+        const _id = mongoose.Types.ObjectId(req.params.id)
+        const locationsArray = [];
+        const completeLocationsArray = [];
         const project = mongoose.Types.ObjectId(req.params.project)
         await ModelName.find({ "reproject_id": project }, '_id')
             .then(async (mkteventList) => {
@@ -90,25 +91,31 @@ module.exports = app => {
                     await EventLocationModelName.find({ "event_id": el._id })
                         .then((eventLocationList) => {
                             for (const location of eventLocationList) {
-                                if (!LocationsArray.includes(el.location_id))
-                                    LocationsArray.push(location.location_id.toString())
+                                if (!locationsArray.includes(el.location_id))
+                                    locationsArray.push(location.location_id.toString())
                             }
                         })
                 }
-                return LocationsArray
-            }).then((LocationsArray) => {
-                return LocationsArray.filter((item, pos) => {
-                    return LocationsArray.indexOf(item) === pos;
+                return locationsArray
+            }).then((locationsArray) => {
+                return locationsArray.filter((item, pos) => {
+                    return locationsArray.indexOf(item) === pos;
                 })
             })
-            .then((record) => {
-                return res.json({
-                    error: false,
-                    record: record
+            .then((locationsArray) => {
+                locationsArray.forEach((el) => {
+                    let index = 0;
+                    index = el.findIndex((location) => {
+                        location.location_id == el;
+                    })
+                    completeLocationsArray.push()
                 })
-                // record.forEach(() => {
 
-                // })
+                record.forEach((el) => {
+                    EventLocationModelName.create({
+
+                    })
+                })
             })
             .catch((err) => {
                 return res.json({
