@@ -5,7 +5,7 @@ const server = require('./config/appServer.js')
 
 dbconnect()
 const app = server()
-app.listen(8090, function () {
+app.listen(8080, function () {
     console.log("Servidor DNAA-Localiza iniciado na porta 8090")
 })
 
