@@ -2,10 +2,11 @@ const mongoose = require('mongoose')
 const tokenok = require("../config/tokenValidate.js")
 require("../models/MktEvent.js")
 require("../models/EventLocation.js")
+require("../models/REProject.js")
+
 
 const EventLocationModelName = mongoose.model("EventLocation")
-const eventLocationRouteName = "/eventlocation"
-
+const ProjectModelName = mongoose.model("REProject")
 
 const ModelName = mongoose.model("MktEvent")
 const routeName = "/mktevent"
@@ -67,6 +68,32 @@ module.exports = app => {
         const project = mongoose.Types.ObjectId(req.params.project)
         await ModelName.find({ "reproject_id": project }, '_id name reproject_id date')
             .then((record) => {
+                return res.json({
+                    error: false,
+                    record
+                })
+            })
+            .catch((err) => {
+                return res.json({
+                    error: true,
+                    message: err
+                })
+            })
+    })
+
+    app.get(routeName + "perdeveloper/:developer", async (req, res) => {
+        const developer = mongoose.Types.ObjectId(req.params.developer)
+        const record = [];
+        await ProjectModelName.find({"reDeveloper_id": developer }, '_id')
+            .then(async (projectList) => {
+                for (const el of projectList) {
+                    await ModelName.find({ "reproject_id": el._id })
+                        .then((mkteventList) => {
+                                record.push(...mkteventList)
+                        })
+                }
+                return record
+            }).then((record) => {
                 return res.json({
                     error: false,
                     record
