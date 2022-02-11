@@ -84,12 +84,12 @@ module.exports = app => {
     app.get(routeName + "perdeveloper/:developer", async (req, res) => {
         const developer = mongoose.Types.ObjectId(req.params.developer)
         const record = [];
-        await ProjectModelName.find({"reDeveloper_id": developer }, '_id')
+        await ProjectModelName.find({ "reDeveloper_id": developer }, '_id')
             .then(async (projectList) => {
                 for (const el of projectList) {
                     await ModelName.find({ "reproject_id": el._id })
                         .then((mkteventList) => {
-                                record.push(...mkteventList)
+                            record.push(...mkteventList)
                         })
                 }
                 return record
@@ -127,7 +127,6 @@ module.exports = app => {
                             }
                         })
                 }
-                // console.log('locationsArray', locationsArray)
                 return locationsArray
             })
             .then((locationsArray) => {
@@ -139,10 +138,26 @@ module.exports = app => {
                     return true
                 })
                 // console.log('completeLocationsArray', completeLocationsArray)
-                
+
                 return completeLocationsArray
-            })
-            .then((record) => {
+            }).then(async (arrayToCreate) => {
+                arrayToCreate.forEach(async (el) => {
+                    console.log(el);
+                    recObj = {
+                        event_id: _id,
+                        location_id: el.id,
+                        distance: el.distance,
+                        disponibility: "",
+                        selected: false,
+                        contracted: false,
+                    }
+                    await EventLocationModelName.create(recObj)
+                        .then((recObj) => {
+                            console.log("Provavelmente criado", recObj);
+                        })
+                })
+                return arrayToCreate
+            }).then((record) => {
                 return res.json({
                     error: false,
                     record,
