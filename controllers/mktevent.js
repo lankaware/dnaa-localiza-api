@@ -111,37 +111,41 @@ module.exports = app => {
         const _id = mongoose.Types.ObjectId(req.params.id)
         const locationsArray = [];
         const completeLocationsArray = [];
+
         const project = mongoose.Types.ObjectId(req.params.project)
-        await ModelName.find({ "reproject_id": project }, '_id')
+
+        await ModelName.find({ "reproject_id": project }, '_id') // todos os eventos de um empreend
             .then(async (mkteventList) => {
                 for (const el of mkteventList) {
-                    await EventLocationModelName.find({ "event_id": el._id })
+                    await EventLocationModelName.find({ "event_id": el._id }) // todos os locais de cada evento
                         .then((eventLocationList) => {
                             for (const location of eventLocationList) {
-                                if (!locationsArray.includes(el.location_id))
-                                    locationsArray.push(location.location_id.toString())
+                                locationsArray.push({
+                                    id: location.location_id.toString(),
+                                    distance: location.distance.toString()
+                                })
                             }
                         })
                 }
+                // console.log('locationsArray', locationsArray)
                 return locationsArray
-            }).then((locationsArray) => {
-                return locationsArray.filter((item, pos) => {
-                    return locationsArray.indexOf(item) === pos;
-                })
             })
             .then((locationsArray) => {
-                locationsArray.forEach((el) => {
-                    let index = 0;
-                    index = el.findIndex((location) => {
-                        location.location_id == el;
+                locationsArray.forEach((value, index, self) => {
+                    unique = index === self.findIndex((t) => {
+                        return t.id === value.id;
                     })
-                    completeLocationsArray.push()
+                    if (unique) completeLocationsArray.push(value)
+                    return true
                 })
-
-                record.forEach((el) => {
-                    EventLocationModelName.create({
-
-                    })
+                // console.log('completeLocationsArray', completeLocationsArray)
+                
+                return completeLocationsArray
+            })
+            .then((record) => {
+                return res.json({
+                    error: false,
+                    record,
                 })
             })
             .catch((err) => {
