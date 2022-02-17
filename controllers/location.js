@@ -23,12 +23,12 @@ module.exports = app => {
         };
 
         var distance = 0
-        
+
         await axios(config)
             .then(function (response) {
                 distance = response.data.rows[0].elements[0].distance.value
                 return res.json({
-                    distance: (distance / 1000).toFixed(1) 
+                    distance: (distance / 1000).toFixed(1)
                 })
             })
             .catch((err) => {
@@ -92,14 +92,21 @@ module.exports = app => {
     })
 
     app.post(routeName, tokenok, async (req, res) => {
-        await ModelName.create(req.body)
-            .then((record) => {
-                return res.json({
-                    error: false,
-                    record,
-                })
-            })
-            .catch((err) => {
+        let searchParm = { 'name': req.body.name }
+        await ModelName.find(searchParm)
+            .then((result) => {
+                if (result == []) {
+                    return err;
+                } else {
+                    ModelName.create(req.body)
+                        .then((record) => {
+                            return res.json({
+                                error: false,
+                                record,
+                            })
+                        })
+                }
+            }).catch((err) => {
                 return res.json({
                     error: true,
                     message: err,
