@@ -28,6 +28,7 @@ const location = new Schema(
         weekendValue: String,
         fifteenValue: String,
         monthValue: String,
+        unavailable: String,
     },
     { timestamps: true }
 )

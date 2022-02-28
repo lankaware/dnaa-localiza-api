@@ -8,6 +8,10 @@ const ModelName = mongoose.model("Location")
 const routeName = "/location"
 
 
+const EventLocationModelName = mongoose.model("EventLocation")
+const eventLocationRouteName = "/eventlocation"
+
+
 module.exports = app => {
 
     app.get(routeName + "distance/:origin/:destination", tokenok, async (req, res) => {
@@ -75,11 +79,13 @@ module.exports = app => {
     })
 
     app.get(routeName + "id/:id", async (req, res) => {
-        const _id = mongoose.Types.ObjectId(req.params.id)
-        await ModelName.findById(req.params.id)
-            .then((record) => {
+Promise.all([ 
+    ModelName.findById(req.params.id),
+    EventLocationModelName.find({'location_id': req.params.id}, 'event_id')
+]).then(([record,history]) => {
                 return res.json({
                     error: false,
+                    history: history,
                     record
                 })
             })
