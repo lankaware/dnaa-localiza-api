@@ -3,13 +3,17 @@ const axios = require('axios')
 
 const tokenok = require("../config/tokenValidate.js")
 require("../models/Location.js")
+require("../models/MktEvent.js")
+require("../models/EventLocation.js")
+
 
 const ModelName = mongoose.model("Location")
 const routeName = "/location"
 
 
+
+const MktEventModelName = mongoose.model("MktEvent")
 const EventLocationModelName = mongoose.model("EventLocation")
-const eventLocationRouteName = "/eventlocation"
 
 
 module.exports = app => {
@@ -78,17 +82,31 @@ module.exports = app => {
             })
     })
 
+    // let searchHistory = async (location) => {
+    //     let record = [];
+    //    await EventLocationModelName.find({ 'location_id': req.params.id }, 'event_id')
+    //    .then((history) => {
+    //        for(let result of history) {
+    //             await MktEventModelName.find({ '_id': result.event_id })
+    //             .then((result) => {
+    //                 record.push(result)
+    //             })
+    //        }
+    //    })
+    // }
+
     app.get(routeName + "id/:id", async (req, res) => {
-Promise.all([ 
-    ModelName.findById(req.params.id),
-    EventLocationModelName.find({'location_id': req.params.id}, 'event_id')
-]).then(([record,history]) => {
-                return res.json({
-                    error: false,
-                    history: history,
-                    record
-                })
+        Promise.all([
+            ModelName.findById(req.params.id),
+            // searchHistory(req.params.id)
+            // EventLocationModelName.find({ 'location_id': req.params.id }, 'event_id')
+        ]).then(([record, history]) => {
+            return res.json({
+                error: false,
+                history: history,
+                record
             })
+        })
             .catch((err) => {
                 return res.json({
                     error: true,
