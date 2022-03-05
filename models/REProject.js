@@ -6,7 +6,9 @@ const reProject = new Schema(
     {
         name: String,
         reDeveloper_id: mongoose.ObjectId,
+        addressType: String,
         address: String,
+        number: String,
         neighborhood: String, 
         city: String,
         state: String,

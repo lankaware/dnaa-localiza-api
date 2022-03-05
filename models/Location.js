@@ -29,6 +29,7 @@ const location = new Schema(
         fifteenValue: String,
         monthValue: String,
         unavailable: String,
+        updatedBy: String,
     },
     { timestamps: true }
 )
