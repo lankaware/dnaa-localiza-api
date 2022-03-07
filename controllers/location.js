@@ -48,8 +48,45 @@ module.exports = app => {
     })
 
     app.get(routeName, tokenok, async (req, res) => {
-        await ModelName.find()
-            .sort('name')
+        // await ModelName.find()
+        //     .sort('name')
+        await ModelName.aggregate([
+            {
+                $project:
+                {
+                    type: 1,
+                    name: 1,
+                    profile: 1,
+                    addressType: 1,
+                    address: 1,
+                    number: 1,
+                    fulladdress: {$concat: ['$addressType', ' ', '$address', ', ', '$number']},
+                    neighborhood: 1,
+                    city: 1,
+                    state: 1,
+                    zip: 1,
+                    email: 1,
+                    phoneContact: 1,
+                    phone: 1,
+                    whats: 1,
+                    operatingHours: 1,
+                    capacity: 1,
+                    contactPreference: 1,
+                    photo: 1,
+                    disponibility: 1,
+                    occupied: 1,
+                    dayValue: 1,
+                    weekendValue: 1,
+                    fifteenValue: 1,
+                    monthValue: 1,
+                    unavailable: 1,
+                    updatedBy: 1,
+                }
+            },
+            {
+                $sort: { 'name': 1 },
+            }
+        ])
             .then((record) => {
                 return res.json({
                     error: false,
@@ -155,7 +192,47 @@ module.exports = app => {
     })
 
     app.put(routeName, tokenok, async (req, res) => {
-        await ModelName.find(req.body)
+        // await ModelName.find(req.body)
+        await ModelName.aggregate([
+            {
+                $match: req.body
+            },
+            {
+                $project:
+                {
+                    type: 1,
+                    name: 1,
+                    profile: 1,
+                    addressType: 1,
+                    address: 1,
+                    number: 1,
+                    fulladdress: {$concat: ['$addressType', ' ', '$address', ', ', '$number']},
+                    neighborhood: 1,
+                    city: 1,
+                    state: 1,
+                    zip: 1,
+                    email: 1,
+                    phoneContact: 1,
+                    phone: 1,
+                    whats: 1,
+                    operatingHours: 1,
+                    capacity: 1,
+                    contactPreference: 1,
+                    photo: 1,
+                    disponibility: 1,
+                    occupied: 1,
+                    dayValue: 1,
+                    weekendValue: 1,
+                    fifteenValue: 1,
+                    monthValue: 1,
+                    unavailable: 1,
+                    updatedBy: 1,
+                }
+            },
+            {
+                $sort: { 'name': 1 },
+            }
+        ])
             .then((record) => {
                 return res.json({
                     error: false,
