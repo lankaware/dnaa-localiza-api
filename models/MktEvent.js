@@ -9,7 +9,6 @@ const mktevent = new Schema(
         date: Date,
         profileFrom: Number, 
         profileTo: Number, 
-        
     },
     { timestamps: true }
 )
