@@ -83,6 +83,7 @@ module.exports = app => {
                     weekendValue: 1,
                     fifteenValue: 1,
                     monthValue: 1,
+                    otherValues: 1,
                     unavailable: 1,
                     updatedBy: 1,
                 }
@@ -229,6 +230,7 @@ module.exports = app => {
                     weekendValue: 1,
                     fifteenValue: 1,
                     monthValue: 1,
+                    otherValues: 1,
                     unavailable: 1,
                     updatedBy: 1,
                 }
