@@ -23,6 +23,9 @@ module.exports = app => {
 
         const localOrigin = encodeURI(req.params.origin)
         const localDest = encodeURI(req.params.destination)
+
+        console.log('localOrigin', localOrigin)
+        console.log('localDest', localDest)
         const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${localOrigin}&destinations=${localDest}&key=${process.env.GDIST_KEY}`
         const config = {
             method: 'get',
@@ -34,6 +37,7 @@ module.exports = app => {
 
         await axios(config)
             .then(function (response) {
+                console.log(response)
                 distance = response.data.rows[0].elements[0].distance.value
                 return res.json({
                     distance: (distance / 1000).toFixed(1)
@@ -79,6 +83,7 @@ module.exports = app => {
                     weekendValue: 1,
                     fifteenValue: 1,
                     monthValue: 1,
+                    otherValues: 1,
                     unavailable: 1,
                     updatedBy: 1,
                 }
@@ -225,6 +230,7 @@ module.exports = app => {
                     weekendValue: 1,
                     fifteenValue: 1,
                     monthValue: 1,
+                    otherValues: 1,
                     unavailable: 1,
                     updatedBy: 1,
                 }

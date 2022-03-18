@@ -14,8 +14,33 @@ const routeName = "/mktevent"
 module.exports = app => {
 
     app.get(routeName, tokenok, async (req, res) => {
-        await ModelName.find()
-            .sort('name')
+        // await ModelName.find()
+        await ModelName.aggregate([
+            {
+                $lookup:
+                {
+                    from: 'reprojects',
+                    localField: 'reproject_id',
+                    foreignField: '_id',
+                    as: 'reproject'
+                }
+            },
+            {
+                $project:
+                {
+                    _id: 1,
+                    name: 1,
+                    reproject_id: 1,
+                    reproject_name: '$reproject.name',
+                    date: 1,
+                    profileFrom: 1,
+                    profileTo: 1,
+                }
+            },
+            {
+                $sort: { 'date': -1 },
+            }
+        ])
             .then((record) => {
                 return res.json({
                     error: false,
@@ -137,12 +162,10 @@ module.exports = app => {
                     if (unique) completeLocationsArray.push(value)
                     return true
                 })
-                // console.log('completeLocationsArray', completeLocationsArray)
 
                 return completeLocationsArray
             }).then(async (arrayToCreate) => {
                 arrayToCreate.forEach(async (el) => {
-                    console.log(el);
                     recObj = {
                         event_id: _id,
                         location_id: el.id,

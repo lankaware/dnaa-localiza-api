@@ -7,7 +7,7 @@ const eventlocation = new Schema(
         event_id: mongoose.ObjectId,
         location_id: mongoose.ObjectId,
         distance: Number,
-        disponibility: String,
+        disponibility: String,  // Não é mais usado - remover aqui, no app e testar
         selected: Boolean,
         contracted: Boolean,
     },

@@ -7,8 +7,28 @@ const routeName = "/reproject"
 
 module.exports = app => {
     app.get(routeName, tokenok, async (req, res) => {
-        await ModelName.find()
-            .sort('name')
+        // await ModelName.find()
+        await ModelName.aggregate([
+            {
+                $project:
+                {
+                    _id: 1,
+                    name: 1,
+                    reDeveloper_id: 1,
+                    addressType: 1,
+                    address: 1,
+                    number: 1,
+                    fulladdress: { $concat: ['$addressType', ' ', '$address', ', ', '$number'] },
+                    neighborhood: 1,
+                    city: 1,
+                    state: 1,
+                    zip: 1,
+                }
+            },
+            {
+                $sort: { 'name': 1 },
+            },
+        ])
             .then((record) => {
                 return res.json({
                     error: false,
@@ -42,7 +62,31 @@ module.exports = app => {
 
     app.get(routeName + "id/:id", async (req, res) => {
         const _id = mongoose.Types.ObjectId(req.params.id)
-        await ModelName.findById(req.params.id)
+        // await ModelName.findById(req.params.id)
+        await ModelName.aggregate([
+            {
+                $project:
+                {
+                    _id: 1,
+                    name: 1,
+                    reDeveloper_id: 1,
+                    addressType: 1,
+                    address: 1,
+                    number: 1,
+                    fulladdress: { $concat: ['$addressType', ' ', '$address', ', ', '$number'] },
+                    neighborhood: 1,
+                    city: 1,
+                    state: 1,
+                    zip: 1,
+                }
+            },
+            {
+                $sort: { 'name': 1 },
+            },
+            {
+                $match: { '_id': _id },
+            }
+        ])
             .then((record) => {
                 return res.json({
                     error: false,
@@ -59,7 +103,7 @@ module.exports = app => {
 
     app.get(routeName + "perdeveloper/:developer", async (req, res) => {
         const developer = mongoose.Types.ObjectId(req.params.developer)
-        await ModelName.find({"reDeveloper_id": developer }, '_id name address')
+        await ModelName.find({ "reDeveloper_id": developer }, '_id name address')
             .then((record) => {
                 return res.json({
                     error: false,
