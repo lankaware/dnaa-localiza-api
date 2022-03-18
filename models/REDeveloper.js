@@ -8,6 +8,7 @@ const reDeveloper = new Schema(
         tradeName: String,
         email: String, 
         phone: String,
+        fee: Number,
     }
 )
 
