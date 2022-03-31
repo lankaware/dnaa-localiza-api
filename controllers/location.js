@@ -105,6 +105,37 @@ module.exports = app => {
             })
     })
 
+    app.get("/locationrepeated", tokenok, async (req, res) => {
+        // await ModelName.find()
+        //     .sort('name')
+        await ModelName.aggregate([
+            {
+                $project:
+                {
+                    name: 1,
+                    addressType: 1,
+                    address: 1,
+                    number: 1,
+                    fulladdress: {$concat: ['$addressType', ' ', '$address', ', ', '$number']},
+                }
+            },
+            {
+                $sort: { 'name': 1 },
+            }
+        ])
+            .then((record) => {
+                return res.json({
+                    error: false,
+                    record
+                })
+            }).catch((err) => {
+                return res.json({
+                    error: true,
+                    message: err
+                })
+            })
+    })
+
     app.get(routeName + "name/:name", tokenok, async (req, res) => {
         let searchParm = { '$and': [{ 'name': { '$gte': req.params.name } }, { 'name': { '$lte': req.params.name + '~' } }] }
         await ModelName.find(searchParm)
@@ -146,6 +177,25 @@ module.exports = app => {
             return res.json({
                 error: false,
                 history: history,
+                record
+            })
+        })
+            .catch((err) => {
+                return res.json({
+                    error: true,
+                    message: err
+                })
+            })
+    })
+
+    app.get(routeName + "summed/:id", async (req, res) => {
+        Promise.all([
+            ModelName.find({ "_id": req.params.id }, '_id type name addressType address number disponibility occupied dayValue weekendValue fifteenValue monthValue otherValues unavailable updatedBy'),
+            // searchHistory(req.params.id)
+            // EventLocationModelName.find({ 'location_id': req.params.id }, 'event_id')
+        ]).then(([record]) => {
+            return res.json({
+                error: false,
                 record
             })
         })

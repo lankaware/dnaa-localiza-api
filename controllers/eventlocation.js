@@ -23,6 +23,7 @@ module.exports = app => {
                 })
             })
     })
+    
  
     app.get(routeName + "event/:id", async (req, res) => {
         const _id = mongoose.Types.ObjectId(req.params.id)
@@ -47,7 +48,9 @@ module.exports = app => {
                     location_id: 1,
                     location_profile: '$location.profile',
                     location_name: '$location.name',
+                    location_address_type: '$location.addressType',
                     location_address: '$location.address',
+                    location_number: '$location.number',
                     location_zip: '$location.zip',
                     location_city: '$location.city',
                     distance: 1,
@@ -55,7 +58,7 @@ module.exports = app => {
                     selected: 1,
                 }
             },
-            {
+            { 
                 $sort: { 'date': 1 },
             }
         ])
