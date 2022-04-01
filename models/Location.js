@@ -31,6 +31,7 @@ const location = new Schema(
         otherValues: String,
         unavailable: String,
         updatedBy: String,
+        bankInfo: String,
     },
     { timestamps: true }
 )
