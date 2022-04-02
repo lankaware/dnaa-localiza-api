@@ -171,7 +171,7 @@ module.exports = app => {
         const passw = JSON.stringify(req.body.passw)
         var privatekey = process.env.SECRET
         var token = jsonwebtoken.sign({ passw }, privatekey, {
-            expiresIn: 7200  // 2hr = 7200 - 12hrs = 43200
+            expiresIn: 43200  // 2hr = 7200 - 12hrs = 43200
         })
         req.body.name = record[0].name
         req.body.token = token
