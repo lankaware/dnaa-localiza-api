@@ -54,8 +54,13 @@ module.exports = app => {
                     location_zip: '$location.zip',
                     location_city: '$location.city',
                     distance: 1,
-                    disponibility: 1,
                     selected: 1,
+                    dayValue: '$location.dayValue',
+                    weekendValue: '$location.weekendValue',
+                    fifteenValue: '$location.fifteenValue',
+                    monthValue: '$location.monthValue',
+                    otherValues: '$location.otherValues',
+                    disponibility: '$location.disponibility',
                 }
             },
             { 
