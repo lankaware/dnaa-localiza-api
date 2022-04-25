@@ -63,6 +63,8 @@ module.exports = app => {
                     monthValue: '$location.monthValue',
                     otherValues: '$location.otherValues',
                     disponibility: '$location.disponibility',
+                    occupied: '$location.occupied',
+                    operatingHours: '$location.operatingHours'
                 }
             },
             { 
