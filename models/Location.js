@@ -32,6 +32,7 @@ const location = new Schema(
         unavailable: String,
         updatedBy: String,
         bankInfo: String,
+        observation: String,
     },
     { timestamps: true }
 )

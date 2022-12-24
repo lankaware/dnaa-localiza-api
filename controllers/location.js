@@ -87,6 +87,7 @@ module.exports = app => {
                     unavailable: 1,
                     updatedBy: 1,
                     bankInfo: 1, 
+                    observation: 1,
                 }
             },
             {
@@ -285,6 +286,7 @@ module.exports = app => {
                     unavailable: 1,
                     updatedBy: 1,
                     bankInfo: 1,
+                    observation: 1,
                 }
             },
             {
